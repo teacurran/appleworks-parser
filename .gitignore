@@ -1,6 +1,11 @@
+*.DS_Store
+*.finf
+
 *.class
 
 # Package Files #
 *.jar
 *.war
 *.ear
+
+.idea/libraries/*
