@@ -2,20 +2,89 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="8c59f695-c4b5-4bbd-8575-3f60b687040d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/ant.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/parser/src/main/java/com/wirelust/appleworks/Parser.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/parser/parse.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/parser/test.sh" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/README.md" afterPath="$PROJECT_DIR$/test_files/README.md" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/alice_10%_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/alice_10%_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/alice_2_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/alice_2_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/alice_37%_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/alice_37%_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/alice_3_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/alice_3_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/alice_45%_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/alice_45%_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/alice_4_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/alice_4_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/alice_50%_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/alice_50%_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/alice_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/alice_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/alice_60%_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/alice_60%_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/alice_75%_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/alice_75%_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/alice_75_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/alice_75_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/alice_80%_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/alice_80%_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/alice_90%_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/alice_90%_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/alice_chalk_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/alice_chalk_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/alice_landscape_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/alice_landscape_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/blank_5.0v1_win-6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/blank_5.0v1_win-6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/blank_5.0v1_win.cwk" afterPath="$PROJECT_DIR$/test_files/blank_5.0v1_win.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/blank_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/blank_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/blank_B-5.0.3_os9.cwk" afterPath="$PROJECT_DIR$/test_files/blank_B-5.0.3_os9.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/blank_a5_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/blank_a5_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/blank_b5_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/blank_b5_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/blank_drawing_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/blank_drawing_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/blank_drawing_B-5.0.3_os9.cwk" afterPath="$PROJECT_DIR$/test_files/blank_drawing_B-5.0.3_os9.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/blank_land_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/blank_land_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/blank_legal_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/blank_legal_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/blank_letter_6.2.9_osx copy.cwk" afterPath="$PROJECT_DIR$/test_files/blank_letter_6.2.9_osx copy.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/blank_letter_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/blank_letter_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/blank_margin_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/blank_margin_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/blank_painting_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/blank_painting_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/blank_port_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/blank_port_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/blank_sheet_B-5.0.3_os9.cwk" afterPath="$PROJECT_DIR$/test_files/blank_sheet_B-5.0.3_os9.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/blank_tabloidex_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/blank_tabloidex_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/brownfox_2_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/brownfox_2_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/brownfox_3_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/brownfox_3_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/brownfox_4_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/brownfox_4_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/brownfox_5.0v1_win.cwk" afterPath="$PROJECT_DIR$/test_files/brownfox_5.0v1_win.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/brownfox_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/brownfox_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/brownfox_B-5.0.3_os9.cwk" afterPath="$PROJECT_DIR$/test_files/brownfox_B-5.0.3_os9.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/brownfox_bold_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/brownfox_bold_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/brownfox_indent2_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/brownfox_indent2_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/brownfox_indent3_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/brownfox_indent3_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/brownfox_indent4_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/brownfox_indent4_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/brownfox_indent_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/brownfox_indent_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/brownfox_margin_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/brownfox_margin_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/brownfoxstyle_4.0_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/brownfoxstyle_4.0_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/brownfoxstyle_5.0v1_win-6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/brownfoxstyle_5.0v1_win-6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/brownfoxstyle_5.0v1_win.cwk" afterPath="$PROJECT_DIR$/test_files/brownfoxstyle_5.0v1_win.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/brownfoxstyle_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/brownfoxstyle_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/brownfoxstyle_B-5.0.3_os9.cwk" afterPath="$PROJECT_DIR$/test_files/brownfoxstyle_B-5.0.3_os9.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/brownfoxstyle_p2_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/brownfoxstyle_p2_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/brownfoxstyle_p_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/brownfoxstyle_p_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/brownfoxstyle_t2_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/brownfoxstyle_t2_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/brownfoxstyle_t3_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/brownfoxstyle_t3_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/brownfoxstyle_t_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/brownfoxstyle_t_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/drawing_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/drawing_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/drawing_B-5.0.3_os9.cwk" afterPath="$PROJECT_DIR$/test_files/drawing_B-5.0.3_os9.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/lorem_5.0v1_win-6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/lorem_5.0v1_win-6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/lorem_5.0v1_win.cwk" afterPath="$PROJECT_DIR$/test_files/lorem_5.0v1_win.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/lorem_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/lorem_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/loremstyle_5.0v1_win.cwk" afterPath="$PROJECT_DIR$/test_files/loremstyle_5.0v1_win.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/loremstyle_6.2.9_osx copy.cwk" afterPath="$PROJECT_DIR$/test_files/loremstyle_6.2.9_osx copy.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/loremstyle_6.2.9_osx.cwk" afterPath="$PROJECT_DIR$/test_files/loremstyle_6.2.9_osx.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/sheet_B-5.0.3_claris4_os9.cwk" afterPath="$PROJECT_DIR$/test_files/sheet_B-5.0.3_claris4_os9.cwk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test files/sheet_B-5.0.3_os9.cwk" afterPath="$PROJECT_DIR$/test_files/sheet_B-5.0.3_os9.cwk" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parser/appleworks parser.iml" afterPath="$PROJECT_DIR$/parser/appleworks parser.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parser/pom.xml" afterPath="$PROJECT_DIR$/parser/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="appleworks parser.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="8c59f695-c4b5-4bbd-8575-3f60b687040d" time="1358283052310" ignored="false" />
+    <file path="/Dummy.txt" changelist="8c59f695-c4b5-4bbd-8575-3f60b687040d" time="1358312369851" ignored="false" />
     <file path="/README.md" changelist="8c59f695-c4b5-4bbd-8575-3f60b687040d" time="1357764581402" ignored="false" />
     <file path="/pom.xml" changelist="8c59f695-c4b5-4bbd-8575-3f60b687040d" time="1357765074452" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../shortvid/server/video-capture/src/java/com/shortvid/videocapture/StreamManager.java" changelist="8c59f695-c4b5-4bbd-8575-3f60b687040d" time="1357771015691" ignored="false" />
     <file path="/StreamManager.java" changelist="8c59f695-c4b5-4bbd-8575-3f60b687040d" time="1357770999368" ignored="false" />
+    <file path="/Parser.java" changelist="8c59f695-c4b5-4bbd-8575-3f60b687040d" time="1358317386332" ignored="false" />
+    <file path="/parse.sh" changelist="8c59f695-c4b5-4bbd-8575-3f60b687040d" time="1358314665727" ignored="false" />
+    <file path="/test.sh" changelist="8c59f695-c4b5-4bbd-8575-3f60b687040d" time="1358316128101" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,10 +143,47 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="pom.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parser/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="21" selection-start="570" selection-end="570" vertical-scroll-proportion="0.31219512">
+            <state line="15" column="44" selection-start="554" selection-end="554" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test.sh" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/parser/test.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="34" selection-start="57" selection-end="57" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Parser.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/parser/src/main/java/com/wirelust/appleworks/Parser.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="146" column="0" selection-start="3572" selection-end="3572" vertical-scroll-proportion="1.09375">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#main#0;class#Parser#0" expanded="true" />
+                <element signature="method#println#0;class#Parser#0" expanded="true" />
+                <element signature="method#getCommandLine#0;class#Parser#0" expanded="true" />
+                <element signature="method#getOptions#0;class#Parser#0" expanded="true" />
+                <element signature="method#processCommandLine#0;class#Parser#0" expanded="true" />
+                <element signature="method#exit#0;class#Parser#0" expanded="true" />
+                <element signature="method#exitWithUsage#0;class#Parser#0" expanded="true" />
+                <element signature="method#usage#0;class#Parser#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="parse.sh" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/parser/parse.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1" column="0" selection-start="0" selection-end="10" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -86,18 +192,21 @@
       <file leaf-file-name=".gitignore" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="17" selection-start="63" selection-end="63" vertical-scroll-proportion="0.0">
+            <state line="10" column="17" selection-start="82" selection-end="82" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="README.md" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test files/README.md">
+        <entry file="file://$PROJECT_DIR$/test_files/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="80" selection-start="581" selection-end="581" vertical-scroll-proportion="0.0">
+            <state line="27" column="0" selection-start="581" selection-end="581" vertical-scroll-proportion="0.0">
               <folding />
             </state>
+          </provider>
+          <provider editor-type-id="MarkdownPreviewEditor">
+            <state />
           </provider>
         </entry>
       </file>
@@ -121,8 +230,12 @@
       <list>
         <option value="$PROJECT_DIR$/test files/README.md" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/parser/pom.xml" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/parser/src/main/bash/parse.sh" />
+        <option value="$PROJECT_DIR$/parser/parse.sh" />
+        <option value="$PROJECT_DIR$/parser/pom.xml" />
+        <option value="$PROJECT_DIR$/parser/test.sh" />
+        <option value="$PROJECT_DIR$/parser/src/main/java/com/wirelust/appleworks/Parser.java" />
       </list>
     </option>
   </component>
@@ -180,11 +293,11 @@
     <OptionsSetting value="true" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="2" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectReloadState">
-    <option name="STATE" value="0" />
+    <option name="STATE" value="2" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
@@ -205,6 +318,10 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="appleworks parser" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -285,22 +402,41 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value=".idea" />
+              <option name="myItemId" value="parser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="appleworks" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="project.structure.last.edited" value="SDKs" />
     <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../Cramer/seronoutilities/MIGRATED.trunk" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -308,8 +444,13 @@
     <property name="FullScreen" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="options.searchVisible" value="true" />
-    <property name="dynamic.classpath" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="dynamic.classpath" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/parser" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration default="true" type="MavenRunConfiguration" factoryName="Maven">
@@ -435,25 +576,25 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1680" height="1024" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="22" width="1680" height="1024" extended-state="6" />
+    <editor active="false" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32881" sideWeight="0.49265605" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.56993735" sideWeight="0.4853121" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.67050207" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.67118996" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32881" sideWeight="0.50306" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32881" sideWeight="0.500612" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.67050207" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.6732777" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.249694" sideWeight="0.67118996" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294979" sideWeight="0.497552" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.249694" sideWeight="0.43006262" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32672232" sideWeight="0.49510404" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -524,6 +665,44 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="17" selection-start="82" selection-end="82" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_files/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="80" selection-start="581" selection-end="581" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="MarkdownPreviewEditor">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parser/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="40" selection-start="603" selection-end="603" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="17" selection-start="82" selection-end="82" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_files/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="80" selection-start="581" selection-end="581" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/parser/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="19" column="15" selection-start="603" selection-end="603" vertical-scroll-proportion="0.0">
@@ -538,17 +717,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test files/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="80" selection-start="581" selection-end="581" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test files/README.md">
-      <provider editor-type-id="MarkdownPreviewEditor">
-        <state />
-      </provider>
+    <entry file="file://$PROJECT_DIR$/test_files/README.md">
       <provider selected="true" editor-type-id="text-editor">
         <state line="27" column="80" selection-start="581" selection-end="581" vertical-scroll-proportion="0.0">
           <folding />
@@ -556,27 +725,163 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
-      <provider editor-type-id="MarkdownPreviewEditor">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="58" selection-start="323" selection-end="323" vertical-scroll-proportion="0.14334472" />
+      </provider>
+      <provider editor-type-id="MarkdownPreviewEditor">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="17" selection-start="63" selection-end="63" vertical-scroll-proportion="0.0">
+        <state line="10" column="17" selection-start="82" selection-end="82" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_files/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="0" selection-start="581" selection-end="581" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="MarkdownPreviewEditor">
+        <state />
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.2/slf4j-api-1.7.2.jar!/org/slf4j/Logger.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="101" column="29" selection-start="3551" selection-end="3551" vertical-scroll-proportion="0.34254143">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parser/parse.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="0" selection-end="10" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parser/test.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="34" selection-start="57" selection-end="57" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/parser/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="21" selection-start="570" selection-end="570" vertical-scroll-proportion="0.31219512">
+        <state line="15" column="44" selection-start="554" selection-end="554" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/parser/src/main/java/com/wirelust/appleworks/Parser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="146" column="0" selection-start="3572" selection-end="3572" vertical-scroll-proportion="1.09375">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#main#0;class#Parser#0" expanded="true" />
+            <element signature="method#println#0;class#Parser#0" expanded="true" />
+            <element signature="method#getCommandLine#0;class#Parser#0" expanded="true" />
+            <element signature="method#getOptions#0;class#Parser#0" expanded="true" />
+            <element signature="method#processCommandLine#0;class#Parser#0" expanded="true" />
+            <element signature="method#exit#0;class#Parser#0" expanded="true" />
+            <element signature="method#exitWithUsage#0;class#Parser#0" expanded="true" />
+            <element signature="method#usage#0;class#Parser#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>actionmailer (v3.2.8, RVM: ruby-1.9.3-p194 [global] (1)) [gem]</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.6</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>appleworks parser</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.6</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.20000002" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: org.odftoolkit:odfdom-java:0.8.7</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>
 
