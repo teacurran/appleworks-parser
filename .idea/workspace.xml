@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="8c59f695-c4b5-4bbd-8575-3f60b687040d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parser/test.sh" afterPath="$PROJECT_DIR$/parser/test.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" readonly="true" id="8c59f695-c4b5-4bbd-8575-3f60b687040d" name="Default" comment="" />
     <ignored path="appleworks parser.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="8c59f695-c4b5-4bbd-8575-3f60b687040d" time="1358326667374" ignored="false" />
+    <file path="/Dummy.txt" changelist="8c59f695-c4b5-4bbd-8575-3f60b687040d" time="1358369258851" ignored="false" />
     <file path="/README.md" changelist="8c59f695-c4b5-4bbd-8575-3f60b687040d" time="1357764581402" ignored="false" />
     <file path="/pom.xml" changelist="8c59f695-c4b5-4bbd-8575-3f60b687040d" time="1358324688552" ignored="false" />
     <file path="$PROJECT_DIR$/../../../../shortvid/server/video-capture/src/java/com/shortvid/videocapture/StreamManager.java" changelist="8c59f695-c4b5-4bbd-8575-3f60b687040d" time="1357771015691" ignored="false" />
@@ -15,6 +12,7 @@
     <file path="/Parser.java" changelist="8c59f695-c4b5-4bbd-8575-3f60b687040d" time="1358326570898" ignored="false" />
     <file path="/parse.sh" changelist="8c59f695-c4b5-4bbd-8575-3f60b687040d" time="1358314665727" ignored="false" />
     <file path="/test.sh" changelist="8c59f695-c4b5-4bbd-8575-3f60b687040d" time="1358316128101" ignored="false" />
+    <file path="$PROJECT_DIR$/.idea/workspace.xml" changelist="8c59f695-c4b5-4bbd-8575-3f60b687040d" time="1358369374352" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -720,7 +718,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1680" height="1024" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5711297" sideWeight="0.4853121" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
