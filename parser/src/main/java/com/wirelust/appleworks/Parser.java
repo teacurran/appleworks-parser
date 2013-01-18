@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
@@ -56,14 +57,25 @@ public class Parser {
 	public void run() {
 		println("file=" + opt_file);
 
+
+		FileInputStream fileInputStream;
+		BufferedInputStream bufferedInputStream;
+		CountingInputStream countingInputStream;
+		DataInputStream dataInputStream = null;
+
+		FileInputStream fileInputStream2;
+		BufferedInputStream bufferedInputStream2 = null;
+
+		byte allBytes[] = null;
+
 		try {
 
 			File file = new File(opt_file);
 
-			FileInputStream fileInputStream = new FileInputStream(file);
-			BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
-			CountingInputStream countingInputStream = new CountingInputStream(bufferedInputStream);
-			DataInputStream dataInputStream = new DataInputStream(countingInputStream);
+			fileInputStream = new FileInputStream(file);
+			bufferedInputStream = new BufferedInputStream(fileInputStream);
+			countingInputStream = new CountingInputStream(bufferedInputStream);
+			dataInputStream = new DataInputStream(countingInputStream);
 
 			// version
 			// 06 07 E1 00
@@ -156,15 +168,37 @@ public class Parser {
 
 			// TODO: figure out a more efficient way to do this.
 			// for now, we are just reading the whole file into an array
+			// once we have more of the file format figured out we should be
+			// able to do it with a peek ahead input stream.
 
-			FileInputStream fileInputStream2 = new FileInputStream(file);
-			BufferedInputStream bufferedInputStream2 = new BufferedInputStream(fileInputStream2);
+			fileInputStream2 = new FileInputStream(file);
+			bufferedInputStream2 = new BufferedInputStream(fileInputStream2);
 
+			allBytes = IOUtils.toByteArray(bufferedInputStream2);
 
-			byte allBytes[] = IOUtils.toByteArray(bufferedInputStream2);
+		} catch (IOException e) {
+			LOGGER.error("ioexception", e);
+		} finally {
+			if (dataInputStream != null) {
+				try {
+					dataInputStream.close();
+				} catch (IOException e2) {
+					LOGGER.error("ioexception", e2);
+				}
+			}
 
+			if (bufferedInputStream2 != null) {
+				try {
+					bufferedInputStream2.close();
+				} catch (IOException e2) {
+					LOGGER.error("ioexception", e2);
+				}
+			}
+		}
+
+		if (allBytes != null && allBytes.length > 0) {
 			int content_start_position = 0;
-			int content_end_position = 0;
+			int contentEndPosition = 0;
 			boolean content_start_found = false;
 
 			int dsetBlocks = 5; // all DSETs have beeen observed to have 5 blocks
@@ -184,49 +218,78 @@ public class Parser {
 
 						blockPosition = blockPosition + 4 + blockLen;
 					}
+
+					if (dsetIndex == 1 && !content_start_found) {
+						content_start_found = true;
+						content_start_position = blockPosition;
+
+						processFirstDSet(allBytes, i + keyword.length);
+					}
 				}
 
-				if (dsetIndex == 1 && !content_start_found) {
-					content_start_found = true;
-					content_start_position = blockPosition;
-				}
 			}
 
 			if (content_start_found) {
 				println("content starts at position=%d", content_start_position);
 
-				boolean content_end_found = false;
+				boolean contentEndFound = false;
 				int blockPosition = content_start_position;
 				int contentBlockIndex = 0;
-				while (!content_end_found) {
+				while (!contentEndFound) {
 					int blockLen = getArrayInt(allBytes, blockPosition);
 
-					String block = new String(Arrays.copyOfRange(allBytes, blockPosition + 4, blockPosition + 4 + blockLen), "MacRoman");
+					String block = null;
+					try {
+						block = new String(Arrays.copyOfRange(allBytes, blockPosition + 4, blockPosition + 4 + blockLen), "MacRoman");
 
-					println("\tcontent block:%d, length:%d", contentBlockIndex, blockLen);
+						println("\tcontent block:%d, length:%d", contentBlockIndex, blockLen);
 
-					String block2 = block.replaceAll("\r", "\n");
+						String block2 = block.replaceAll("\r", "\n");
 
-					System.out.println(block2);
+						System.out.println(block2);
 
-					// TODO: convert strings into UTF
+						// TODO: convert strings properly into UTF
 
-					blockPosition = blockPosition + 4 + blockLen;
-					contentBlockIndex++;
+						blockPosition = blockPosition + 4 + blockLen;
+						contentBlockIndex++;
 
-					if (block.charAt(block.length()-1) == 0x00) {
-						content_end_found = true;
-						content_end_position = blockPosition;
+						if (block.charAt(block.length()-1) == 0x00) {
+							contentEndFound = true;
+							contentEndPosition = blockPosition;
+						}
+
+
+					} catch (UnsupportedEncodingException ie) {
+						LOGGER.error("unsupported encoding: MacRoman", ie);
 					}
 
 				}
 
-				println("content ends at position=%d", content_end_position);
+				println("content ends at position=%d", contentEndPosition);
 			}
-
-		} catch (IOException e) {
-			LOGGER.error("ioexception", e);
 		}
+	}
+
+	public void processFirstDSet(byte allBytes[], int startPosition) {
+		println("First DSET block");
+
+		int position = startPosition;
+
+		boolean dsetDone = false;
+
+		while (!dsetDone) {
+			int blockLength = getArrayInt(allBytes, position);
+			position = position + 4;
+			println("\tblock length:%d", blockLength);
+
+			short page = getArrayShort(allBytes, position);
+			position = position + 2;
+			println("\tpage count:%d", page);
+
+
+			dsetDone = true;
+		}
+
 
 
 	}
