@@ -9,3 +9,5 @@
 *.ear
 
 .idea/libraries/*
+
+.test_files/*.odt

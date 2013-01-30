@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 
 import org.apache.commons.cli.CommandLine;
@@ -19,6 +20,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.CountingInputStream;
+import org.odftoolkit.odfdom.doc.OdfTextDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +42,7 @@ public class Parser {
 
 
 	private String opt_file;
+	private boolean opt_output = false;
 
 	/**
 	 * @param args command line arguments
@@ -67,6 +70,9 @@ public class Parser {
 		BufferedInputStream bufferedInputStream2 = null;
 
 		byte allBytes[] = null;
+
+		Charset macRomanCharset = Charset.forName("MacRoman");
+		Charset utf8Charset = Charset.forName("UTF-8");
 
 		try {
 
@@ -171,6 +177,7 @@ public class Parser {
 			// once we have more of the file format figured out we should be
 			// able to do it with a peek ahead input stream.
 
+
 			fileInputStream2 = new FileInputStream(file);
 			bufferedInputStream2 = new BufferedInputStream(fileInputStream2);
 
@@ -229,6 +236,20 @@ public class Parser {
 
 			}
 
+
+			OdfTextDocument convertedDoc = null;
+
+			if (opt_output) {
+				try {
+					convertedDoc = OdfTextDocument.newTextDocument();
+
+				} catch (Exception e) {
+					// OdfTextDocument really throws java.lang.Exception, really.
+					LOGGER.error("error creating output document");
+					opt_output = false;
+				}
+			}
+
 			if (content_start_found) {
 				println("content starts at position=%d", content_start_position);
 
@@ -238,34 +259,56 @@ public class Parser {
 				while (!contentEndFound) {
 					int blockLen = getArrayInt(allBytes, blockPosition);
 
-					String block = null;
-					try {
-						block = new String(Arrays.copyOfRange(allBytes, blockPosition + 4, blockPosition + 4 + blockLen), "MacRoman");
+					String block = new String(Arrays.copyOfRange(allBytes, blockPosition + 4, blockPosition + 4 + blockLen), macRomanCharset);
 
-						println("\tcontent block:%d, length:%d", contentBlockIndex, blockLen);
+					if (block.charAt(block.length()-1) == 0x00) {
+						contentEndFound = true;
+						contentEndPosition = blockPosition;
 
-						String block2 = block.replaceAll("\r", "\n");
-
-						System.out.println(block2);
-
-						// TODO: convert strings properly into UTF
-
-						blockPosition = blockPosition + 4 + blockLen;
-						contentBlockIndex++;
-
-						if (block.charAt(block.length()-1) == 0x00) {
-							contentEndFound = true;
-							contentEndPosition = blockPosition;
-						}
-
-
-					} catch (UnsupportedEncodingException ie) {
-						LOGGER.error("unsupported encoding: MacRoman", ie);
+						// we don't want that last null character.
+						block = block.substring(0, block.length() - 1);
 					}
+
+					println("\tcontent block:%d, length:%d", contentBlockIndex, blockLen);
+
+					// TODO: I don't think this properly converts MacRoman to UTF8
+					String blockUtf8 = new String(block.getBytes(utf8Charset)).replaceAll("\r", "\n");
+
+
+					System.out.println(blockUtf8);
+
+					if (opt_output) {
+						// add the text to the convert document
+						try {
+							convertedDoc.addText(blockUtf8);
+						} catch (Exception e) {
+							LOGGER.error("error adding text to converted document", e);
+						}
+					}
+
+
+					blockPosition = blockPosition + 4 + blockLen;
+					contentBlockIndex++;
 
 				}
 
 				println("content ends at position=%d", contentEndPosition);
+
+				if (opt_output) {
+					String convertedFileName = opt_file.replace(".cwk", ".odt");
+
+					if (new File(convertedFileName).exists()) {
+						LOGGER.error("unable to save converted document. '{}' exists.", convertedFileName);
+					} else {
+						// Save converted document
+						try {
+							convertedDoc.save(convertedFileName);
+							convertedDoc.close();
+						} catch (Exception e) {
+							LOGGER.error("error saving converted document", e);
+						}
+					}
+				}
 			}
 		}
 	}
@@ -339,6 +382,7 @@ public class Parser {
 
 		Options options = new Options();
 		options.addOption("f", "file", true, "file to parse");
+		options.addOption("o", "output", false, "output converted document");
 
 		return options;
 	}
@@ -354,9 +398,14 @@ public class Parser {
 			opt_file = cl.getOptionValue("f");
 		}
 
+		if (cl.hasOption("o")) {
+			opt_output = true;
+		}
+
 		if (opt_file == null || opt_file.isEmpty()) {
 			exitWithUsage("You must specify a file to parse");
 		}
+
 
 	}
 
