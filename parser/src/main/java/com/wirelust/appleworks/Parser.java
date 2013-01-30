@@ -21,6 +21,11 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.CountingInputStream;
 import org.odftoolkit.odfdom.doc.OdfTextDocument;
+import org.odftoolkit.odfdom.dom.element.style.StyleMasterPageElement;
+import org.odftoolkit.odfdom.dom.style.props.OdfPageLayoutProperties;
+import org.odftoolkit.odfdom.incubator.doc.office.OdfOfficeMasterStyles;
+import org.odftoolkit.odfdom.incubator.doc.office.OdfOfficeStyles;
+import org.odftoolkit.odfdom.incubator.doc.style.OdfStylePageLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +48,7 @@ public class Parser {
 
 	private String opt_file;
 	private boolean opt_output = false;
+	private boolean opt_print_content = false;
 
 	/**
 	 * @param args command line arguments
@@ -73,6 +79,26 @@ public class Parser {
 
 		Charset macRomanCharset = Charset.forName("MacRoman");
 		Charset utf8Charset = Charset.forName("UTF-8");
+
+		// page height
+		short page_height = 792;
+
+		// page width
+		short page_width = 612;
+
+		// margins
+		short margin1 = 72;
+		short margin2 = 72;
+		short margin3 = 72;
+		short margin4 = 72;
+		short margin5 = 72;
+		short margin6 = 72;
+
+		// page height
+		short page_inner_height = 720;
+
+		// page width
+		short page_inner_width = 540;
 
 		try {
 
@@ -133,39 +159,39 @@ public class Parser {
 			dataInputStream.skipBytes(4);
 
 			// page height
-			short page_height = dataInputStream.readShort();
+			page_height = dataInputStream.readShort();
 			println("page height=%d", page_height);
 
 			// page width
-			short page_width = dataInputStream.readShort();
+			page_width = dataInputStream.readShort();
 			println("page width=%d", page_width);
 
 			// margins
 			// 00 48 00 48 00 48 00 48 00 48 00 48
-			short margin1 = dataInputStream.readShort();
+			margin1 = dataInputStream.readShort();
 			println("margin1=%d", margin1);
 
-			short margin2 = dataInputStream.readShort();
+			margin2 = dataInputStream.readShort();
 			println("margin2=%d", margin2);
 
-			short margin3 = dataInputStream.readShort();
+			margin3 = dataInputStream.readShort();
 			println("margin3=%d", margin3);
 
-			short margin4 = dataInputStream.readShort();
+			margin4 = dataInputStream.readShort();
 			println("margin4=%d", margin4);
 
-			short margin5 = dataInputStream.readShort();
+			margin5 = dataInputStream.readShort();
 			println("margin5=%d", margin5);
 
-			short margin6 = dataInputStream.readShort();
+			margin6 = dataInputStream.readShort();
 			println("margin6=%d", margin6);
 
 						// page height
-			short page_inner_height = dataInputStream.readShort();
+			page_inner_height = dataInputStream.readShort();
 			println("page inner height=%d", page_inner_height);
 
 			// page width
-			short page_inner_width = dataInputStream.readShort();
+			page_inner_width = dataInputStream.readShort();
 			println("page inner width=%d", page_inner_width);
 
 			// this isn't really the end of the header. I just don't know where it ends yet.
@@ -248,6 +274,22 @@ public class Parser {
 					LOGGER.error("error creating output document");
 					opt_output = false;
 				}
+
+				if (convertedDoc != null) {
+					OdfOfficeMasterStyles masterStyles = convertedDoc.getOfficeMasterStyles(); 
+					StyleMasterPageElement masterStyle = masterStyles.getMasterPage("Standard");
+					String layoutName = masterStyle.getStylePageLayoutNameAttribute();
+
+					OdfStylePageLayout layoutStyle = masterStyle.getAutomaticStyles().getPageLayout(layoutName);
+					layoutStyle.setProperty(OdfPageLayoutProperties.PageWidth, String.format("%dpt", page_width));
+					layoutStyle.setProperty(OdfPageLayoutProperties.PageHeight, String.format("%dpt", page_height));
+					
+					if (page_width > page_height) {
+						masterStyle.setProperty(OdfPageLayoutProperties.PrintOrientation, "landscape");
+					} else {
+						masterStyle.setProperty(OdfPageLayoutProperties.PrintOrientation, "portrait");
+					}
+				}
 			}
 
 			if (content_start_found) {
@@ -274,8 +316,9 @@ public class Parser {
 					// TODO: I don't think this properly converts MacRoman to UTF8
 					String blockUtf8 = new String(block.getBytes(utf8Charset)).replaceAll("\r", "\n");
 
-
-					System.out.println(blockUtf8);
+					if (opt_print_content) {
+						System.out.println(blockUtf8);
+					}
 
 					if (opt_output) {
 						// add the text to the convert document
@@ -383,6 +426,7 @@ public class Parser {
 		Options options = new Options();
 		options.addOption("f", "file", true, "file to parse");
 		options.addOption("o", "output", false, "output converted document");
+		options.addOption("p", "print-content", false, "print content");
 
 		return options;
 	}
@@ -400,6 +444,10 @@ public class Parser {
 
 		if (cl.hasOption("o")) {
 			opt_output = true;
+		}
+
+		if (cl.hasOption("p")) {
+			opt_print_content = true;
 		}
 
 		if (opt_file == null || opt_file.isEmpty()) {
