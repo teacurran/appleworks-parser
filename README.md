@@ -7,13 +7,13 @@ a working parser for Appleworks and Clarisworks formats and convert them into te
 You can see my research into the Appleworks/ClarisWorks file format here:
 [http://wiki.wirelust.com/x/index.php/AppleWorks_/_ClarisWorks](http://wiki.wirelust.com/x/index.php/AppleWorks_/_ClarisWorks)
 
-What is working:
-    * document version
-    * page size
-    * margins
-    * document content
+What is working: 
+* document version 
+* page size 
+* margins 
+* document content 
 
-What I am currently working on:
-    * styles – (bold, italic, underline)
-    * footnotes
+What I am currently working on: 
+* styles – (bold, italic, underline) 
+* footnotes 
 
