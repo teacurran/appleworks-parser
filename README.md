@@ -17,3 +17,10 @@ What I am currently working on:
 * styles – (bold, italic, underline) 
 * footnotes 
 
+Build Instructions
+------------------
+* install java
+* install apache maven
+* mvn package
+* once packaged, running ./parse.sh should run the main executable.
+
