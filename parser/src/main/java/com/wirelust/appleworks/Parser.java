@@ -368,10 +368,14 @@ public class Parser {
 			position = position + 4;
 			println("\tblock length:%d", blockLength);
 
-			short page = getArrayShort(allBytes, position);
+			short blockCount = getArrayShort(allBytes, position);
 			position = position + 2;
-			println("\tpage count:%d", page);
+			println("\tblock count:%d", blockCount);
 
+			for (int i=0; i<blockCount; i++) {
+				position = position + 30;
+			}
+			println("\tblocks end at:%d", position);
 
 			dsetDone = true;
 		}
