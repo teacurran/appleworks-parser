@@ -100,7 +100,7 @@ public class Parser {
 		// page width
 		short page_inner_width = 540;
 
-		Document doc = new Document;
+		Document doc = new Document();
 
 		try {
 
