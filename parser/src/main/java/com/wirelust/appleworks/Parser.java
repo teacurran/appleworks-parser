@@ -100,6 +100,8 @@ public class Parser {
 		// page width
 		short page_inner_width = 540;
 
+		Document doc = new Document;
+
 		try {
 
 			File file = new File(opt_file);
@@ -117,6 +119,15 @@ public class Parser {
 			dataInputStream.skipBytes(1);
 			println("version=%d.%d.%d", version1, version2, version3);
 
+			int typePosition = 0;
+			switch (version1) {
+				case 5:
+					typePosition = 268;
+					break;
+				case 6:
+					typePosition = 278;
+			}
+
 			// BOBO
 			// 42 4F 42 4F
 			byte[] bobo = new byte[4];
@@ -131,12 +142,11 @@ public class Parser {
 
 			// previous version
 			// 06 07 E1 00
-			int previous_version1 = dataInputStream.read();
-			int previous_version2 = dataInputStream.read();
-			int previous_version3 = dataInputStream.read();
+			int previousVersion1 = dataInputStream.read();
+			int previousVersion2 = dataInputStream.read();
+			int previousVersion3 = dataInputStream.read();
 			dataInputStream.skipBytes(1);
-			println("previous version=%d.%d.%d", previous_version1, previous_version2, previous_version3);
-
+			println("previous version=%d.%d.%d", previousVersion1, previousVersion2, previousVersion3);
 
 			// unknown
 			// 00 00 00 00 00 00 00 00
@@ -186,7 +196,7 @@ public class Parser {
 			margin6 = dataInputStream.readShort();
 			println("margin6=%d", margin6);
 
-						// page height
+			// page height
 			page_inner_height = dataInputStream.readShort();
 			println("page inner height=%d", page_inner_height);
 
@@ -194,8 +204,15 @@ public class Parser {
 			page_inner_width = dataInputStream.readShort();
 			println("page inner width=%d", page_inner_width);
 
+
+			if (typePosition > 0 && countingInputStream.getCount() < typePosition) {
+				dataInputStream.skipBytes(typePosition - countingInputStream.getCount());
+			}
+
+			doc.setType(dataInputStream.readByte());
+
 			// this isn't really the end of the header. I just don't know where it ends yet.
-			int header_end_position = countingInputStream.getCount();
+			int headerEndPosition = countingInputStream.getCount();
 
 
 			// TODO: figure out a more efficient way to do this.

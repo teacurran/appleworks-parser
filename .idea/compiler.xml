@@ -33,6 +33,8 @@
         <module name="appleworks parser" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="appleworks parser" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
 </project>
-
