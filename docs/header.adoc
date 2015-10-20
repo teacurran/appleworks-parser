@@ -1,0 +1,85 @@
+=== Document Header
+
+.Document Header
+[width="80%",grid="all", valign="top", options="header"]
+|=========================================================
+|chunk id |position start |length (bytes) |description |example |ascii or int |comments
+
+|  1 |  0 |  1 |  major version |  05 +
+06 | |  confirmed
+
+|  2 |  2 |  3 |  additional version |  029900 +
+07E100 | |  appears somewhat random but is specific to minor version, maybe platform
+
+| 3 | 8 | 4 | creator type | 424F424F | BOBO | Always has the same value
+
+| 4 | 8 | 4 | previous version | 029900 +
+07E100 | | If file was converted this will contain the previous major and additional version number. If not converted it will be the same as 0-8
+
+| 5 | 12 | 8 |  | 0x00000000 0x00000000 | | seems to always be full of zeros
+
+| 6 | 20 | 2 | | 0x0001 | | seems to always be 0x0001
+
+| 7 | 22 | 2 |  | 0x0194 +
+0x01CD | | some sort of marker - will appear not too far ahead of this block.
+
+| 8 | 24 | 2 | | | | is usually the same after each instance of block, but sometimes different.
+
+| 9 | 26 | 4 | | 0x00000000 | |
+
+
+|10 |30 | 2 | page height | | 792 +
+612 | page width in pts. ie: 792x612 for portrait,  612x792 for landscape
+
+|11 |32 | 2 | page width | | |
+
+|12 |34 | 12 | margins | 0x0048 0x0048 0x0048 0x0048 0x0048 0x0048 | HHHHHH | link:margins.adoc[margins]
+
+|13 |46 | 2 | inner height | | | will be equal to #10 minus either right or left, not sure which yet
+
+|14 |48 | 2 | inner width | | | will be equal to #11 minus either top or bottom margin, not sure which yet
+
+|15 |50 | 1 | | 0x01 | | same in all files tested - probably a flag
+
+|16 |51 | 1 | | 0x00 | | same in all files tested - probably a flag
+
+|17 |52 | 1 | | 0x01 | | same in all files tested - probably a flag
+
+|18 |53 | 1 | | 0x00 | | same in all files tested - probably a flag
+
+|19 |54 | 4 | | 0x00000000 | | unknown
+
+|20 |58 | 4 | | 0x00000000 | | unknown
+
+|21 |58 | 4 | | 0x00000000 | | unknown
+
+|22 |62 | 4 | | 0x00000000 | | unknown
+
+|23 |66 | 4 | | 0x00000000 | | unknown
+
+|24 |70 | 4 | | 0x00000100 | | unknown
+
+|25 |74 | 4 | | | | unknown
+
+|26 |78 | 4 | | | | unknown
+
+|27 |82 | 4 | | | | unknown
+
+|28 |86 | 4 | | 0x00000005 | | unknown
+
+|29 |90 | 2 | | 0xFFFF | |
+
+|30 |? | 4 | end header??? | 7FFFFFFF | | appears in all files tested. position:  +
+680 - 5.0v1 +
+672 - 6.2.9
+
+|31 |after last block | 4 | length of next block after next | | | 
+
+|32 |after last | 46 | unknown | | |
+
+|33 |after last | determined by number in #21 | unknown | | |
+
+|=========================================================
+
+
+*there is a 2 byte delimiter shortly after the header that is used throughout the document.

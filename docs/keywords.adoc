@@ -61,7 +61,8 @@ possibly v6 only.
 NAME +
 FNTM +
 CELL +
-GRPH +RULR | | First 4 bytes indicate length of block
+GRPH +
+RULR | | First 4 bytes indicate length of block
 
 |TNAM | | | |Different on every save
 
