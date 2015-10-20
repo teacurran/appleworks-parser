@@ -32,5 +32,6 @@ ClarisWorks older than 5.0.
 
 == Document Format
 include::keywords.adoc[]
+
 include::markers.adoc[]
 
