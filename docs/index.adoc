@@ -1,0 +1,36 @@
+= Introduction
+
+Clarisworks / Appleworks documents are a closed file format. This page is an
+attempt to describe this format(s) for the purpose of importing documents into
+newer more open formats for archiving.
+
+After being frustrated that I wasn't able to normalize old files with Xena I
+set out figure out how to read this file to develop a plugin. I was sure that
+someone had already written a plugin for OpenOffice or KOffice or something.
+This page is a collection of all of the resources and info I have been able
+to find, as well as my own discoveries about this file format. I plan on
+continuing work until I have enough knowledge to develop a reader that can at
+least extract text and some basic formatting of simple documents. From what I
+can tell, I think this first goal can be met. If anyone else out there can
+find anything else on their own, please update this wiki or email me your thoughts.
+code and test files can be found at: https://github.com/teacurran/appleworks-parser
+
+== Priorities
+
+* discover how to determine the start of the content block
+* Figure out the format of DSET
+* discover how to read the style attributes to apply to the content
+* develop plugin for Xena
+* develop plugin for general use
+
+== Example Files
+
+example files I am using can be found in test_files directory
+
+Please email me any examples you might have, especially if you have a version of
+ClarisWorks older than 5.0.
+
+== Document Format
+include::keywords.adoc[]
+include::markers.adoc[]
+

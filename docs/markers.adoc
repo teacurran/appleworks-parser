@@ -1,0 +1,19 @@
+=== Markers
+
+I am making a guess that these are markers, still trying to figure out the meaning of each.
+
+.Markers
+[width="80%",grid="all", valign="top", options="header"]
+|=========================================================
+|marker |type |can contain |description |notes |observed length v5 | observed length v6
+
+|0x0000FFFF | | | | | |
+|0x0001FFFF | | | | | |
+|0x0101FFFF | | | | | 68 |
+|0x0003FFFF | | | | | |
+|0x0005FFFF | | | | | 176 | 160
+|0x0007FFFF | | | | | |
+|0x7FFFFFFF | | | | | |
+|0x000BFFFF | | | | | |
+|0x000DFFFF | | | | | |
+|0x0E01FFFF | | | | | | 80

@@ -1,0 +1,70 @@
+=== Keywords
+
+.Keywords
+[width="80%",grid="all", valign="top", options="header"]
+|=========================================================
+|keyword |type |can contain |description |notes
+
+|BBAR | | | |
+
+|CHAR | | | |
+
+|CELL | | | |
+
+|CPRT |variable | | |first 4 bytes indicate length of block<br>v6 contains xml with printing information
+
+|link:DSET.adoc[DSET] | | | |appear to have a format like: +
+4 byte Len +
+value +
+4 byte Len +
+value +
+continuing, +
+not sure when it ends.
+
+|link:DSUM.adoc[DSUM] |variable | |Document summary |First 4 bytes indicate length of block
+
+|ETBL | | | |
+
+|link:FNTM.adoc[FNTM] |blocked | |something to do with fonts |
+
+|GRPH | | | |
+
+|link:HASH.adoc[HASH] | | | | Appears in multiples of 2? +
+always preceded by: FF FF 00 00 00 06 00 04 00 01
+
+|HDNI |variable | | |First 4 bytes indicate length of block
+
+|KSEN | | | |preceded by?: FF FF 00 00 00 0E 00 0A 00 02
+
+|LKUP | | | |preceded by?: FF FF 00 00 00 02 00 04 00 02
+
+|LOM! | | | | don't know if this is a keyword but putting it here just in case
+
+|NAME | | | |
+
+|link:RULR.adoc[RULR] | | | | probably page rulers<br>unable to determine the length
+
+|MARK | |MRKS +
+MOBJ | |First 4 bytes indicate length of block
+
+|MRKS | | | |
+
+|oBIN | | | |
+
+|SNAP |variable | |snapshot |First 4 bytes indicate length of block +
+then there is 5 bytes that are unknown, probably payload type, then a
+[http://www.fileformat.info/format/macpict/egff.htm PICT] file. +
++
+possibly v6 only.
+
+|link:STYL.adoc[STYL] | |HASH +
+NAME +
+FNTM +
+CELL +
+GRPH +RULR | | First 4 bytes indicate length of block
+
+|TNAM | | | |Different on every save
+
+|WMBT | | | |
+
+|=========================================================

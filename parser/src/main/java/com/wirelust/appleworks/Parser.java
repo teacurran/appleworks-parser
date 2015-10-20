@@ -87,18 +87,18 @@ public class Parser {
 		short page_width = 612;
 
 		// margins
-		short margin1 = 72;
-		short margin2 = 72;
-		short margin3 = 72;
-		short margin4 = 72;
+		short marginTop = 72;
+		short marginLeft = 72;
+		short marginBottom = 72;
+		short marginRight = 72;
 		short margin5 = 72;
 		short margin6 = 72;
 
 		// page height
-		short page_inner_height = 720;
+		short pageInnerHeight = 720;
 
 		// page width
-		short page_inner_width = 540;
+		short pageInnerWidth = 540;
 
 		Document doc = new Document();
 
@@ -178,17 +178,17 @@ public class Parser {
 
 			// margins
 			// 00 48 00 48 00 48 00 48 00 48 00 48
-			margin1 = dataInputStream.readShort();
-			println("margin1=%d", margin1);
+			marginTop = dataInputStream.readShort();
+			println("marginTop=%d", marginTop);
 
-			margin2 = dataInputStream.readShort();
-			println("margin2=%d", margin2);
+			marginLeft = dataInputStream.readShort();
+			println("marginLeft=%d", marginLeft);
 
-			margin3 = dataInputStream.readShort();
-			println("margin3=%d", margin3);
+			marginBottom = dataInputStream.readShort();
+			println("marginBottom=%d", marginBottom);
 
-			margin4 = dataInputStream.readShort();
-			println("margin4=%d", margin4);
+			marginRight = dataInputStream.readShort();
+			println("marginRight=%d", marginRight);
 
 			margin5 = dataInputStream.readShort();
 			println("margin5=%d", margin5);
@@ -197,13 +197,18 @@ public class Parser {
 			println("margin6=%d", margin6);
 
 			// page height
-			page_inner_height = dataInputStream.readShort();
-			println("page inner height=%d", page_inner_height);
+			pageInnerHeight = dataInputStream.readShort();
+			println("page inner height=%d", pageInnerHeight);
 
 			// page width
-			page_inner_width = dataInputStream.readShort();
-			println("page inner width=%d", page_inner_width);
+			pageInnerWidth = dataInputStream.readShort();
+			println("page inner width=%d", pageInnerWidth);
 
+			// flags
+			short flag1 = dataInputStream.readShort();
+			short flag2 = dataInputStream.readShort();
+			short flag3 = dataInputStream.readShort();
+			short flag4 = dataInputStream.readShort();
 
 			if (typePosition > 0 && countingInputStream.getCount() < typePosition) {
 				dataInputStream.skipBytes(typePosition - countingInputStream.getCount());
