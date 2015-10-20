@@ -37,3 +37,52 @@ include::markers.adoc[]
 
 include::header.adoc[]
 
+=== Document Info
+*there is a summary stored after the main header but before the first DSET
+
+.Document Info
+[width="80%",grid="all", valign="top", options="header"]
+|=========================================================
+|desc |length (bytes) |notes
+|full length + 1 | 4 |
+|abbreviated length| 1 |
+|=========================================================
+
+* This is used to store an abbreviated table of properties for:
+** Title
+** Author
+** Version
+** Keywords
+** Category
+** Description
+
+*each field is allowed 255 bytes of content +
+*full content is always available in the [[Projects:Archiving:AppleWorks:DSUM|DSUM]] section
+
+=== Document Content
+Content Appears to start right after the end of the first DSET block
+
+Strings in the document start with the first 4 bytes indicating the length of the string
+
+The content area will have several strings in a row without any termination
+
+The last string appears to be null terminated.
+
+footnotes show up in the text as 0x02
+
+=== Document TOC
+The TOC can contain any number of markers in any order. The data area always starts and ends with ETBL.
+
+.Document TOC - at end of file
+[width="80%",grid="all", valign="top", options="header"]
+|=========================================================
+|position start |length (bytes)| description |example |ascii |comments
+|start position determined by other ETBL |4 |tag |4554424C |ETBL |Value indicates the total length of data in ETBL
+|anywhere |4 |data | |oBIN |oBIN block offset from start of doc
+|anywhere |4 |tag |4453554D |DSUM |DSUM block offset
+|anywhere |4 |data | |STYL |STYL block offset
+|anywhere |4 |data || BBAR |
+|anywhere |4 |data || MARK| MARK block offset
+|anywhere |4 |data || MRKS |
+|EOF - 24 |4 |tag |4554424C |ETBL |Following Value indicates start position
+|=========================================================
