@@ -86,3 +86,43 @@ The TOC can contain any number of markers in any order. The data area always sta
 |anywhere |4 |data || MRKS |
 |EOF - 24 |4 |tag |4554424C |ETBL |Following Value indicates start position
 |=========================================================
+
+== Misc
+
+in both versions tested, document ends with: +
+FF FE FD FC FB FA F9 F8 F0 F1 F2 F3 F4 F5 F6 F7
+
+=== Passwords
+* password protected documents do not have their content protected.
+* password is not stored in the file
+* it probably stores a checksum because there isn't much difference in password length
+
+
+== Other Efforts
+
+=== ABIWord
+ClarisWorks import for ABIWord (non-functional but has some info)
+http://svn.abisource.com/abiword/trunk/plugins/clarisworks/xp/
+
+=== OpenOffice / StarOffice
+If you do a ton of google searches, you find a lot of pages that say that
+StarOffice could open ClarisWorks documents. This was done with the W4W filter.
+After a lot of digging, I believe that these filters live in OpenOffice in the
+Framework project. After checking out the source for the Framework project, I
+believe that the ClarisWorks import support was non-existant. If I am reading
+the source correctly, it looks like this filter simply opens the document as
+ASCII. If this is the case, I don't know why they even bothered to say they
+had a filter, if this is not the case someone please correct me.
+
+=== Propriatary
+* Old versions of DataViz can convert documents. product appears dead but
+still for sale.
+* MacText can convert older .cwk files to rtf, word2, and Word Perfect
+* XTND - there is a lot of info out there about XTND filters as part of
+system 6 and 7. I would like to investigate if copies of these filters
+could help this effort but I haven't been able to find enough info yet.
+
+== Misc
+Forum message from someone looking into the format (from 2001, ha!)
+http://www.justlinux.com/forum/showthread.php?p=228151
+
