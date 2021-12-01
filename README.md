@@ -5,7 +5,7 @@ This is a project I have been working off and on for a few years now whenever I 
 a working parser for Appleworks and Clarisworks formats and convert them into text or Open Document Format Files.
 
 You can see my research into the Appleworks/ClarisWorks file format here:
-[https://web.archive.org/web/20140503002923/http://wiki.wirelust.com/x/index.php/Projects:Archiving:AppleWorks](https://web.archive.org/web/20140503002923/http://wiki.wirelust.com/x/index.php/Projects:Archiving:AppleWorks)
+[docs/index.adoc](docs/index.adoc)
 
 What is working: 
 * document version 
