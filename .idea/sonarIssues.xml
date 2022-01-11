@@ -43,7 +43,22 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../wirelust-bitbucket-api/README.adoc">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../wirelust-bitbucket-api/client/src/main/java/com/wirelust/bitbucket/client/BitbucketV2Client.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../wirelust-bitbucket-api/example/README.adoc">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../wirelust-bitbucket-api/example/src/main/java/com/wirelust/bitbucket/example/services/UserService.java">
           <value>
             <set />
           </value>
