@@ -1,85 +1,118 @@
 === Document Header
 
+The document header contains metadata about the ClarisWorks/AppleWorks file including version, page dimensions, margins, and document type.
+
 .Document Header
-[width="80%",grid="all", valign="top", options="header"]
+[width="100%",grid="all", valign="top", options="header"]
 |=========================================================
 |chunk id |position start |length (bytes) |description |example |ascii or int |comments
 
 |  1 |  0 |  1 |  major version |  05 +
-06 | |  confirmed
+06 | |  5 = ClarisWorks 5.x, 6 = AppleWorks 6.x
 
-|  2 |  2 |  3 |  additional version |  029900 +
-07E100 | |  appears somewhat random but is specific to minor version, maybe platform
+|  2 |  1 |  1 |  minor version |  07 +
+02 | |  Minor version number
 
-| 3 | 8 | 4 | creator type | 424F424F | BOBO | Always has the same value
+|  3 |  2 |  2 |  build/platform identifier |  E100 +
+9900 | |  Platform-specific: E100 = OSX, 9900 = Windows
 
-| 4 | 8 | 4 | previous version | 029900 +
-07E100 | | If file was converted this will contain the previous major and additional version number. If not converted it will be the same as 0-8
+| 4 | 4 | 4 | creator signature | 424F424F | BOBO | Always "BOBO" - validates file format
 
-| 5 | 12 | 8 |  | 0x00000000 0x00000000 | | seems to always be full of zeros
+| 5 | 8 | 4 | previous version | 0607E100 +
+05029900 | | If file was converted, contains original version. Otherwise matches bytes 0-3
 
-| 6 | 20 | 2 | | 0x0001 | | seems to always be 0x0001
+| 6 | 12 | 8 | reserved | 0x00000000 0x00000000 | | Always zeros
 
-| 7 | 22 | 2 |  | 0x0194 +
-0x01CD | | some sort of marker - will appear not too far ahead of this block.
+| 7 | 20 | 2 | unknown | 0x0001 | | Consistently 0x0001
 
-| 8 | 24 | 2 | | | | is usually the same after each instance of block, but sometimes different.
+| 8 | 22 | 2 | marker | 0x0194 +
+0x01CD | | Version-specific marker value
 
-| 9 | 26 | 4 | | 0x00000000 | |
+| 9 | 24 | 2 | unknown | | | Varies between files
 
+| 10 | 26 | 4 | reserved | 0x00000000 | | Always zeros
 
-|10 |30 | 2 | page height | | 792 +
-612 | page width in pts. ie: 792x612 for portrait,  612x792 for landscape
+| 11 | 30 | 2 | page height | 0x0318 +
+0x0264 | 792 +
+612 | Page height in points (72 pts = 1 inch). 792 = 11", 612 = 8.5"
 
-|11 |32 | 2 | page width | | |
+| 12 | 32 | 2 | page width | 0x0264 +
+0x0318 | 612 +
+792 | Page width in points. Portrait: 612x792, Landscape: 792x612
 
-|12 |34 | 12 | margins | 0x0048 0x0048 0x0048 0x0048 0x0048 0x0048 | HHHHHH | link:margins.adoc[margins]
+| 13 | 34 | 2 | margin top | 0x0048 | 72 | Top margin in points (72 = 1 inch)
 
-|13 |46 | 2 | inner height | | | will be equal to #10 minus either right or left, not sure which yet
+| 14 | 36 | 2 | margin left | 0x0048 | 72 | Left margin in points
 
-|14 |48 | 2 | inner width | | | will be equal to #11 minus either top or bottom margin, not sure which yet
+| 15 | 38 | 2 | margin bottom | 0x0048 | 72 | Bottom margin in points
 
-|15 |50 | 1 | | 0x01 | | same in all files tested - probably a flag
+| 16 | 40 | 2 | margin right | 0x0048 | 72 | Right margin in points
 
-|16 |51 | 1 | | 0x00 | | same in all files tested - probably a flag
+| 17 | 42 | 2 | margin 5 | 0x0048 | 72 | Additional margin (header/gutter?)
 
-|17 |52 | 1 | | 0x01 | | same in all files tested - probably a flag
+| 18 | 44 | 2 | margin 6 | 0x0048 | 72 | Additional margin (footer/gutter?)
 
-|18 |53 | 1 | | 0x00 | | same in all files tested - probably a flag
+| 19 | 46 | 2 | inner height | 0x02D0 | 720 | Printable area height (page - top/bottom margins)
 
-|19 |54 | 4 | | 0x00000000 | | unknown
+| 20 | 48 | 2 | inner width | 0x021C | 540 | Printable area width (page - left/right margins)
 
-|20 |58 | 4 | | 0x00000000 | | unknown
+| 21 | 50 | 2 | flags | 0x0100 | | Unknown flags
 
-|21 |58 | 4 | | 0x00000000 | | unknown
+| 22 | 52 | 2 | flags | 0x0001 | | Unknown flags
 
-|22 |62 | 4 | | 0x00000000 | | unknown
+| 23 | 54 | 76 | reserved/unknown | | | Various flags and reserved bytes
 
-|23 |66 | 4 | | 0x00000000 | | unknown
-
-|24 |70 | 4 | | 0x00000100 | | unknown
-
-|25 |74 | 4 | | | | unknown
-
-|26 |78 | 4 | | | | unknown
-
-|27 |82 | 4 | | | | unknown
-
-|28 |86 | 4 | | 0x00000005 | | unknown
-
-|29 |90 | 2 | | 0xFFFF | |
-
-|30 |? | 4 | end header??? | 7FFFFFFF | | appears in all files tested. position:  +
-680 - 5.0v1 +
-672 - 6.2.9
-
-|31 |after last block | 4 | length of next block after next | | | 
-
-|32 |after last | 46 | unknown | | |
-
-|33 |after last | determined by number in #21 | unknown | | |
+| 24 | 128 (0x80) | 2 | **document type** | 0x0202 +
+0x0101 +
+0x1515 | | See link:document_types.adoc[document_types]. +
+0x0202 = Word Processing +
+0x0101 = Drawing +
+0x1515 = Painting +
+0x0303 = Spreadsheet
 
 |=========================================================
 
+==== Paper Size Values
 
-*there is a 2 byte delimiter shortly after the header that is used throughout the document.
+Common paper sizes observed in test files:
+
+.Paper Sizes
+[width="80%",grid="all", valign="top", options="header"]
+|=========================================================
+| Paper | Height (hex) | Height (pts) | Width (hex) | Width (pts) | Orientation
+
+| US Letter | 0x0318 | 792 | 0x0264 | 612 | Portrait
+| US Letter | 0x0264 | 612 | 0x0318 | 792 | Landscape
+| US Legal | 0x03F0 | 1008 | 0x0264 | 612 | Portrait
+| A5 | 0x0253 | 595 | 0x01A4 | 420 | Portrait
+|=========================================================
+
+==== Version Detection
+
+The version can be used to determine file compatibility:
+
+* **Major version 5**: ClarisWorks 5.x (Windows or Mac OS 9)
+* **Major version 6**: AppleWorks 6.x (Mac OS X)
+
+The build identifier at bytes 2-3 can help identify the platform:
+
+* **E100**: Mac OS X
+* **9900**: Windows
+* **AD00**: Mac OS 9 (observed in v5 files)
+
+==== File End Marker
+
+All ClarisWorks/AppleWorks files end with a 16-byte marker:
+
+----
+FF FE FD FC FB FA F9 F8 F0 F1 F2 F3 F4 F5 F6 F7
+----
+
+This marker always appears after the link:etbl.adoc[ETBL] block and can be used to verify file integrity.
+
+==== Notes
+
+* All multi-byte values are stored in big-endian format.
+* Character strings use MacRoman encoding.
+* Page dimensions are in points (72 points = 1 inch).
+* Earlier documentation incorrectly identified document type position. The correct position is **0x80** (128).
