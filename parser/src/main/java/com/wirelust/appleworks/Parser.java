@@ -19,11 +19,6 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.CountingInputStream;
-import org.odftoolkit.odfdom.doc.OdfTextDocument;
-import org.odftoolkit.odfdom.dom.element.style.StyleMasterPageElement;
-import org.odftoolkit.odfdom.dom.style.props.OdfPageLayoutProperties;
-import org.odftoolkit.odfdom.incubator.doc.office.OdfOfficeMasterStyles;
-import org.odftoolkit.odfdom.incubator.doc.style.OdfStylePageLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,6 +73,7 @@ public class Parser {
 	private String opt_file;
 	private boolean opt_output = false;
 	private boolean opt_print_content = false;
+	private boolean opt_verbose = true;
 
 	/**
 	 * @param args command line arguments
@@ -89,8 +85,31 @@ public class Parser {
 		app.run();
 	}
 
+	/**
+	 * Parses an AppleWorks/ClarisWorks file and returns a Document object.
+	 *
+	 * @param filePath Path to the .cwk file
+	 * @return Parsed Document object, or null if parsing failed
+	 */
+	public Document parse(String filePath) {
+		this.opt_file = filePath;
+		this.opt_verbose = false;
+		return parseInternal();
+	}
+
 	public void run() {
-		println("file=" + opt_file);
+		Document doc = parseInternal();
+		if (doc != null && opt_output) {
+			String outputPath = opt_file.replaceAll("\\.[cC][wW][kK]$", ".odt");
+			OdfWriter writer = new OdfWriter();
+			writer.write(doc, outputPath);
+		}
+	}
+
+	private Document parseInternal() {
+		if (opt_verbose) {
+			println("file=" + opt_file);
+		}
 
 		FileInputStream fileInputStream;
 		BufferedInputStream bufferedInputStream;
@@ -300,35 +319,6 @@ public class Parser {
 				}
 			}
 
-			OdfTextDocument convertedDoc = null;
-
-			if (opt_output) {
-				try {
-					convertedDoc = OdfTextDocument.newTextDocument();
-				} catch (Exception e) {
-					LOGGER.error("error creating output document");
-					opt_output = false;
-				}
-
-				if (convertedDoc != null) {
-					OdfOfficeMasterStyles masterStyles = convertedDoc.getOfficeMasterStyles();
-					StyleMasterPageElement masterStyle = masterStyles.getMasterPage("Standard");
-					String layoutName = masterStyle.getStylePageLayoutNameAttribute();
-
-					OdfStylePageLayout layoutStyle = masterStyle.getAutomaticStyles().getPageLayout(layoutName);
-					layoutStyle.setProperty(OdfPageLayoutProperties.PageWidth,
-							String.format("%dpt", doc.getPageWidth()));
-					layoutStyle.setProperty(OdfPageLayoutProperties.PageHeight,
-							String.format("%dpt", doc.getPageHeight()));
-
-					if (doc.isLandscape()) {
-						masterStyle.setProperty(OdfPageLayoutProperties.PrintOrientation, "landscape");
-					} else {
-						masterStyle.setProperty(OdfPageLayoutProperties.PrintOrientation, "portrait");
-					}
-				}
-			}
-
 			if (content_start_found) {
 				println("content starts at position=0x%08X (%d)", content_start_position, content_start_position);
 
@@ -363,36 +353,12 @@ public class Parser {
 						System.out.println(blockUtf8);
 					}
 
-					if (opt_output && convertedDoc != null) {
-						try {
-							convertedDoc.addText(blockUtf8);
-						} catch (Exception e) {
-							LOGGER.error("error adding text to converted document", e);
-						}
-					}
-
 					blockPosition = blockPosition + 4 + blockLen;
 					contentBlockIndex++;
 				}
 
 				doc.setContent(contentBuilder.toString());
 				println("content ends at position=0x%08X (%d)", contentEndPosition, contentEndPosition);
-
-				if (opt_output && convertedDoc != null) {
-					String convertedFileName = opt_file.replace(".cwk", ".odt");
-
-					if (new File(convertedFileName).exists()) {
-						LOGGER.error("unable to save converted document. '{}' exists.", convertedFileName);
-					} else {
-						try {
-							convertedDoc.save(convertedFileName);
-							convertedDoc.close();
-							println("Saved converted document: %s", convertedFileName);
-						} catch (Exception e) {
-							LOGGER.error("error saving converted document", e);
-						}
-					}
-				}
 			}
 
 			// Verify file end marker
@@ -401,6 +367,8 @@ public class Parser {
 				println("File end marker found at: 0x%08X (%d)", endMarkerPos, endMarkerPos);
 			}
 		}
+
+		return doc;
 	}
 
 	/**
@@ -594,7 +562,9 @@ public class Parser {
 	}
 
 	public void println(String line, Object... args) {
-		System.out.format(line + "\n", args);
+		if (opt_verbose) {
+			System.out.format(line + "\n", args);
+		}
 	}
 
 	/**

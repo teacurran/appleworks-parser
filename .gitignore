@@ -10,4 +10,9 @@
 
 .idea/libraries/*
 
-.test_files/*.odt
+# Test output
+test_files/*.odt
+test_files_output/
+
+# Build output
+parser/target/
