@@ -1,71 +1,81 @@
 === Keywords
 
+Block keywords are 4-byte ASCII identifiers that mark the start of data blocks within ClarisWorks/AppleWorks files.
+
 .Keywords
-[width="80%",grid="all", valign="top", options="header"]
+[width="100%",grid="all", valign="top", options="header"]
 |=========================================================
-|keyword |type |can contain |description |notes
+|keyword |hex |type |description |notes
 
-|BBAR | | | |
+|BBAR |42424152 | |Button bar |
 
-|CHAR | | | |
+|CHAR |43484152 |variable |Character style runs |Contains text formatting information (bold, italic, etc.). See link:style_runs.adoc[style_runs]. First 4 bytes after keyword indicate length.
 
-|CELL | | | |
+|CELL |43454C4C | |Cell formatting |Used in spreadsheets and style definitions
 
-|CPRT |variable | | |first 4 bytes indicate length of block<br>v6 contains xml with printing information
+|CPRT |43505254 |variable |Print settings |First 4 bytes indicate length. In v6, contains XML plist with printing information (resolution, paper size, orientation, etc.)
 
-|link:DSET.adoc[DSET] | | | |appear to have a format like: +
-4 byte Len +
-value +
-4 byte Len +
-value +
-continuing, +
-not sure when it ends.
+|CTAB |43544142 |variable |Cell table |Spreadsheet-specific block containing cell data
 
-|link:DSUM.adoc[DSUM] |variable | |Document summary |First 4 bytes indicate length of block
+|DSET |44534554 |blocked |Dataset |Contains 5 sub-blocks. First DSET is followed by document content. Format: 4-byte length + value, repeating.
 
-|ETBL | | | |
+|DSUM |4453554D |variable |Document summary |First 4 bytes indicate length. Contains metadata: title, author, version, keywords, category, description.
 
-|link:FNTM.adoc[FNTM] |blocked | |something to do with fonts |
+|ETBL |4554424C |variable |End table (TOC) |Table of contents at end of file. Maps block names to offsets. See link:etbl.adoc[etbl]. Followed by file end marker.
 
-|GRPH | | | |
+|FNTM |464E544D |blocked |Font map |List of fonts used in document. Each font entry is 69 bytes. See link:fonts.adoc[fonts].
 
-|link:HASH.adoc[HASH] | | | | Appears in multiples of 2? +
-always preceded by: FF FF 00 00 00 06 00 04 00 01
+|GRPH |47525048 | |Graphics |Graphics/drawing data
 
-|HDNI |variable | | |First 4 bytes indicate length of block
+|HASH |48415348 | |Hash table |Appears in multiples. Preceded by: FF FF 00 00 00 06 00 04 00 01
 
-|KSEN | | | |preceded by?: FF FF 00 00 00 0E 00 0A 00 02
+|HDNI |48444E49 |variable |Header info |First 4 bytes indicate length
 
-|LKUP | | | |preceded by?: FF FF 00 00 00 02 00 04 00 02
+|KSEN |4B53454E | |Unknown |Preceded by: FF FF 00 00 00 0E 00 0A 00 02
 
-|LOM! | | | | don't know if this is a keyword but putting it here just in case
+|LKUP |4C4B5550 | |Lookup |Preceded by: FF FF 00 00 00 02 00 04 00 02
 
-|NAME | | | |
+|LOM! |4C4F4D21 | |Unknown |Appears in v6 OSX files. In v5 Windows files, appears reversed as !MOL (possible endianness indicator)
 
-|link:RULR.adoc[RULR] | | | | probably page rulers<br>unable to determine the length
+|MARK |4D41524B |variable |Markers |First 4 bytes indicate length. Contains MRKS and MOBJ sub-blocks.
 
-|MARK | |MRKS +
-MOBJ | |First 4 bytes indicate length of block
+|MCRO |4D43524F | |Macros |Macro definitions
 
-|MRKS | | | |
+|MOBJ |4D4F424A | |Marker object |Sub-block within MARK
 
-|oBIN | | | |
+|MRKS |4D524B53 | |Markers list |Sub-block within MARK
 
-|SNAP |variable | |snapshot |First 4 bytes indicate length of block +
-then there is 5 bytes that are unknown, probably payload type, then a
-[http://www.fileformat.info/format/macpict/egff.htm PICT] file. +
-+
-possibly v6 only.
+|NAME |4E414D45 | |Named styles |Style names (e.g., "Default", "Header", "Body", "Footer", "Footnote")
 
-|link:STYL.adoc[STYL] | |HASH +
-NAME +
-FNTM +
-CELL +
-GRPH +
-RULR | | First 4 bytes indicate length of block
+|oBIN |6F42494E | |Binary offset |Binary block offset references
 
-|TNAM | | | |Different on every save
+|RULR |52554C52 | |Ruler |Page rulers and paragraph formatting
 
-|WMBT | | | |
+|SNAP |534E4150 |variable |Snapshot/thumbnail |First 4 bytes indicate length. Contains PICT format thumbnail image. 5 header bytes before PICT data. Possibly v6 only.
+
+|STYL |5354594C |variable |Styles |Contains sub-blocks: HASH, NAME, FNTM, CELL, GRPH, RULR. First 4 bytes indicate length.
+
+|TNAM |544E414D | |Template name |Changes on every save (possibly checksum or UUID)
+
+|WMBT |574D4254 | |Unknown |Window/workbook related?
 
 |=========================================================
+
+==== Block Format
+
+Most variable-length blocks follow this format:
+
+----
+[KEYWORD]  (4 bytes, ASCII)
+[LENGTH]   (4 bytes, big-endian integer)
+[DATA]     (LENGTH bytes)
+----
+
+==== Finding Blocks
+
+Blocks can be found by:
+
+1. **Sequential scanning**: Search for 4-byte keyword patterns
+2. **ETBL lookup**: Parse the ETBL block at end of file to get direct offsets to all major blocks
+
+The ETBL approach is more efficient for random access to specific blocks.

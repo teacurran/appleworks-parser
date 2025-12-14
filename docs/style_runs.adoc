@@ -1,0 +1,144 @@
+=== CHAR - Character Style Runs
+
+The CHAR block contains style run information that defines formatting applied to ranges of text in word processing documents.
+
+==== Purpose
+
+Style runs define which portions of text have specific formatting (bold, italic, underline, font changes, etc.). Each run specifies a character range and the styles applied to it.
+
+==== Block Structure
+
+.CHAR Block Format
+[width="80%",grid="all", valign="top", options="header"]
+|=========================================================
+| Offset | Size | Description | Example
+
+| 0 | 4 | Block identifier | `CHAR` (0x43484152)
+| 4 | 4 | Additional header info | Varies
+| 8+ | n*20 | Style run entries (~20 bytes each) | See below
+|=========================================================
+
+==== Style Run Entry Format (Approximate)
+
+Style run entries are approximately 20 bytes each. The exact structure is still being reverse-engineered:
+
+.Style Run Entry Structure
+[width="80%",grid="all", valign="top", options="header"]
+|=========================================================
+| Offset | Size | Description | Observed Values
+
+| 0 | 2 | Style flags | 0x0C01 (normal), 0x0901 (bold?), 0x0E01 (italic?), 0x0A01 (underline?)
+| 2 | 4 | Unknown | Usually 0x00000000
+| 6 | 2 | Unknown | 0x0300 observed
+| 8 | 2 | Unknown | Often 0xFFFF
+| 10 | 2 | Unknown | Varies
+| 12 | 2 | Text length/span | Length of styled text
+| 14 | 2 | Character offset | Cumulative position in text
+| 16 | 4 | Unknown | Varies
+|=========================================================
+
+==== Style Flag Values (Tentative)
+
+These values have been observed but require further verification:
+
+.Style Flags
+[width="80%",grid="all", valign="top", options="header"]
+|=========================================================
+| Flag Value | Style
+
+| 0x0C01 | Normal (no style)
+| 0x0901 | Bold (tentative)
+| 0x0E01 | Italic (tentative)
+| 0x0A01 | Underline (tentative)
+|=========================================================
+
+==== Example
+
+.CHAR block from brownfoxstyle_6.2.9_osx.cwk
+----
+00000DC0: 001A 000A 0002 4348 4152 01CD D3E8 0000  ......CHAR......
+00000DD0: FFFF 0000 0001 00FF FFFF 0000 0000 0000  ................
+00000DE0: 0000 0C01 0000 0000 0300 0000 0000 0005  ................
+00000DF0: 0000 0000 00FF FFFF 0000 0000 0C01 0000  ................
+00000E00: 0000 0300 FFFF 0000 0001 0000 0005 00FF  ................
+00000E10: FFFA 0001 0000 0901 0000 0000 0300 FFFF  ................
+00000E20: 0000 0001 0000 0016 00FF FFEB 0000 0001  ................
+00000E30: 0E01 0000 0000 0300 FFFF 0000 0001 0000  ................
+----
+
+==== Comparison: Plain vs Styled
+
+The CHAR block in a styled document contains more entries than in a plain document:
+
+.Plain document CHAR block
+----
+Fewer style run entries, mostly 0x0C01 (normal) style
+----
+
+.Styled document CHAR block
+----
+Multiple entries with varying style flags (0x0901, 0x0E01, 0x0A01, etc.)
+Additional entries for each style change in the text
+----
+
+==== Integration with Content
+
+Style runs reference positions within the document content. To apply styles:
+
+1. Parse the document content from DSET blocks
+2. Parse style runs from CHAR block
+3. Match style run offsets to character positions in content
+4. Apply appropriate formatting
+
+==== Parsing Code (Basic)
+
+[source,java]
+----
+public class StyleRun {
+    public static final int FLAG_NORMAL = 0x0C01;
+    public static final int FLAG_BOLD = 0x0901;
+    public static final int FLAG_ITALIC = 0x0E01;
+    public static final int FLAG_UNDERLINE = 0x0A01;
+
+    private int startOffset;
+    private int endOffset;
+    private int styleFlags;
+    private boolean bold;
+    private boolean italic;
+    private boolean underline;
+
+    public StyleRun(int startOffset, int endOffset, int styleFlags) {
+        this.startOffset = startOffset;
+        this.endOffset = endOffset;
+        this.styleFlags = styleFlags;
+        parseStyleFlags(styleFlags);
+    }
+
+    private void parseStyleFlags(int flags) {
+        switch (flags) {
+            case FLAG_BOLD:
+                this.bold = true;
+                break;
+            case FLAG_ITALIC:
+                this.italic = true;
+                break;
+            case FLAG_UNDERLINE:
+                this.underline = true;
+                break;
+        }
+    }
+}
+----
+
+==== Notes
+
+* The CHAR block structure requires more analysis for complete understanding.
+* Style flags interpretation is tentative and based on observed patterns.
+* Font size and font family references may be encoded in the unknown fields.
+* The relationship between CHAR and STYL blocks needs further investigation.
+
+==== Related Blocks
+
+* **STYL** - Contains named style definitions (e.g., "Default", "Header", "Body")
+* **FNTM** - Contains font names referenced by font index in style runs
+* **RULR** - Contains ruler/paragraph formatting settings

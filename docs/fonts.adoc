@@ -1,0 +1,114 @@
+=== FNTM - Font Map Block
+
+The FNTM block contains the list of fonts used in the document. Each font entry is 69 bytes (0x45) in size.
+
+==== Block Structure
+
+.FNTM Block Format
+[width="80%",grid="all", valign="top", options="header"]
+|=========================================================
+| Offset | Size | Description | Example
+
+| 0 | 4 | Block identifier | `FNTM` (0x464E544D)
+| 4 | 4 | Block size (big-endian) | Varies
+| 8 | n | Font entries (69 bytes each) | See below
+|=========================================================
+
+==== Font Entry Format
+
+Each font entry is exactly 69 bytes (0x45):
+
+.Font Entry Structure
+[width="80%",grid="all", valign="top", options="header"]
+|=========================================================
+| Offset | Size | Description | Example
+
+| 0 | 2 | Entry header | 0x0015 (observed pattern)
+| 2 | 2 | Font index/flags | 0x0002
+| 4 | 1 | Font name length | 0x09 (9 characters)
+| 5 | 64 | Font name (null-padded) | "Helvetica\0\0\0..."
+|=========================================================
+
+==== Common Fonts
+
+Fonts commonly found in ClarisWorks/AppleWorks documents:
+
+* Helvetica
+* Geneva
+* Times
+* Arial
+* Courier
+* Palatino
+* Chicago
+
+==== Character Encoding
+
+Font names use **MacRoman** character encoding, which is the standard encoding for classic Mac OS applications.
+
+==== Example
+
+.FNTM block from brownfoxstyle_6.2.9_osx.cwk
+----
+00001410: 0002 464E 544D  0015 0002 0948 656C 7665  ..FNTM.....Helve
+00001420: 7469 6361 0000 0000 0000 0000 0000 0000  tica............
+00001430: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00001440: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00001450: 0000 0000 0000 0000 0000 0015 0002 0647  ...............G
+00001460: 656e 6576 6100 0000 0000 0000 0000 0000  eneva...........
+...
+00001490: 0000 0000 0000 0000 0000 0000 0000 0015  ................
+000014A0: 0002 0554 696d 6573 0000 0000 0000 0000  ...Times........
+----
+
+Parsed fonts:
+----
+[0] Helvetica
+[1] Geneva
+[2] Times
+----
+
+==== Parsing Code
+
+[source,java]
+----
+static final int FONT_ENTRY_SIZE = 0x45; // 69 bytes
+
+public void parseFonts(byte[] allBytes, Document doc) {
+    int fntmPos = findPattern(allBytes, new byte[]{0x46, 0x4E, 0x54, 0x4D}, 0);
+
+    if (fntmPos < 0) {
+        return;
+    }
+
+    int pos = fntmPos + 4;
+    int blockSize = getArrayInt(allBytes, pos);
+    pos += 4;
+
+    while (pos < fntmPos + 4 + blockSize && pos + FONT_ENTRY_SIZE < allBytes.length) {
+        // Check for font entry header pattern
+        if (allBytes[pos] == 0x00 && allBytes[pos + 1] == 0x15) {
+            pos += 4; // Skip header and index
+
+            int nameLen = allBytes[pos] & 0xFF;
+            pos++;
+
+            if (nameLen > 0 && nameLen < 64) {
+                String fontName = new String(
+                    Arrays.copyOfRange(allBytes, pos, pos + nameLen),
+                    Charset.forName("MacRoman")).trim();
+                doc.addFont(fontName);
+            }
+
+            pos += (FONT_ENTRY_SIZE - 5);
+        } else {
+            pos++;
+        }
+    }
+}
+----
+
+==== Notes
+
+* The font index in each entry can be used to reference fonts from style runs in the CHAR block.
+* Font entries are always 69 bytes, regardless of font name length (names are null-padded).
+* The entry header pattern `0x0015` appears consistent across tested files.

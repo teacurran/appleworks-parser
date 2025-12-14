@@ -1,0 +1,128 @@
+=== ETBL - End Table of Contents
+
+The ETBL block is located near the end of every ClarisWorks/AppleWorks file and contains a table of contents (index) of all major blocks in the document.
+
+==== Purpose
+
+The ETBL block allows random access to any block in the file without scanning. It maps 4-character block names to their byte offsets within the file.
+
+==== Structure
+
+.ETBL Block Format
+[width="80%",grid="all", valign="top", options="header"]
+|=========================================================
+| Offset | Size | Description | Example
+
+| 0 | 4 | Block identifier | `ETBL` (0x4554424C)
+| 4 | 4 | Total block size (big-endian) | 0x00000068 (104 bytes)
+| 8 | n*8 | Table entries (repeating) | See below
+|=========================================================
+
+.Table Entry Format (8 bytes each)
+[width="80%",grid="all", valign="top", options="header"]
+|=========================================================
+| Offset | Size | Description | Example
+
+| 0 | 4 | Block name (ASCII) | `DSUM`, `STYL`, `FNTM`, etc.
+| 4 | 4 | Block offset in file (big-endian) | 0x00000AD5
+|=========================================================
+
+==== Common Block Names
+
+.Known Block Types
+[width="80%",grid="all", valign="top", options="header"]
+|=========================================================
+| Name | Description
+
+| DSUM | Document Summary (metadata)
+| HDNI | Header Info
+| STYL | Style definitions
+| MCRO | Macros
+| oBlN | Binary block offsets
+| MARK | Markers
+| WMBT | Unknown (window/workbook related?)
+| SNAP | Snapshot/Thumbnail (PICT format)
+| TNAM | Template Name
+| CPRT | Print settings (XML plist in v6)
+| ETBL | Self-reference (points to this block)
+|=========================================================
+
+==== Location
+
+The ETBL block is always located near the end of the file, followed only by the file end marker.
+
+==== File End Marker
+
+Immediately after the ETBL block content is the 16-byte file end marker:
+
+----
+FF FE FD FC FB FA F9 F8 F0 F1 F2 F3 F4 F5 F6 F7
+----
+
+This marker is present in all tested ClarisWorks/AppleWorks files and can be used to verify file integrity.
+
+==== Example
+
+.ETBL from blank_6.2.9_osx.cwk
+----
+00003BE4: 45 54 42 4C  00 00 00 68  44 53 55 4D  00 00 0A D5  ETBL...hDSUM....
+00003BF4: 48 44 4E 49  00 00 0A F5  53 54 59 4C  00 00 0A FF  HDNI....STYL....
+00003C04: 4D 43 52 4F  00 00 13 9D  6F 42 6C 4E  00 00 13 AD  MCRO....oBlN....
+00003C14: 4D 41 52 4B  00 00 13 B9  57 4D 42 54  00 00 13 DF  MARK....WMBT....
+00003C24: 53 4E 41 50  00 00 13 EB  54 4E 41 4D  00 00 16 F6  SNAP....TNAM....
+00003C34: 43 50 52 54  00 00 17 1D  45 54 42 4C  00 00 3B E4  CPRT....ETBL..;.
+00003C44: FF FE FD FC  FB FA F9 F8  F0 F1 F2 F3  F4 F5 F6 F7  ................
+----
+
+Parsed entries:
+----
+DSUM -> 0x00000AD5 (2773)
+HDNI -> 0x00000AF5 (2805)
+STYL -> 0x00000AFF (2815)
+MCRO -> 0x0000139D (5021)
+oBlN -> 0x000013AD (5037)
+MARK -> 0x000013B9 (5049)
+WMBT -> 0x000013DF (5087)
+SNAP -> 0x000013EB (5099)
+TNAM -> 0x000016F6 (5878)
+CPRT -> 0x0000171D (5917)
+ETBL -> 0x00003BE4 (15332) [self-reference]
+----
+
+==== Parsing Code
+
+[source,java]
+----
+public Map<String, Integer> parseETBL(byte[] allBytes) {
+    Map<String, Integer> blockIndex = new HashMap<>();
+
+    // Find the last occurrence of ETBL
+    int etblPos = findLastPattern(allBytes, new byte[]{0x45, 0x54, 0x42, 0x4C});
+
+    if (etblPos < 0) {
+        return blockIndex;
+    }
+
+    // Read size
+    int size = getArrayInt(allBytes, etblPos + 4);
+
+    // Parse entries
+    int pos = etblPos + 8;
+    int endPos = etblPos + 4 + size;
+
+    while (pos + 8 <= endPos) {
+        String blockName = new String(Arrays.copyOfRange(allBytes, pos, pos + 4));
+        int offset = getArrayInt(allBytes, pos + 4);
+
+        // Stop if we hit the file end marker
+        if (blockName.charAt(0) == (char) 0xFF) {
+            break;
+        }
+
+        blockIndex.put(blockName, offset);
+        pos += 8;
+    }
+
+    return blockIndex;
+}
+----

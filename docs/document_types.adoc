@@ -1,0 +1,77 @@
+=== Document Types
+
+ClarisWorks/AppleWorks supports multiple document types. The document type is stored as a 2-byte value at offset `0x80` in the file header.
+
+==== Document Type Values
+
+.Document Types
+[width="80%",grid="all", valign="top", options="header"]
+|=========================================================
+| Hex Value | Decimal | Document Type | Description
+
+| 0x0000 | 0 | Spreadsheet | Older spreadsheet format (v4 and earlier)
+| 0x0101 | 257 | Drawing | Vector drawing document
+| 0x0202 | 514 | Word Processing | Text document (most common)
+| 0x0303 | 771 | Spreadsheet | Version 5.x spreadsheet format
+| 0x1515 | 5397 | Painting | Bitmap/raster painting document
+|=========================================================
+
+==== Detection
+
+The document type is located at:
+
+* **Offset**: `0x80` (128 decimal)
+* **Size**: 2 bytes (big-endian short)
+
+==== Example Code
+
+[source,java]
+----
+// Read document type at offset 0x80
+dataInputStream.skipBytes(0x80 - currentPosition);
+short docType = dataInputStream.readShort();
+
+switch (docType) {
+    case 0x0202:
+        System.out.println("Word Processing document");
+        break;
+    case 0x0101:
+        System.out.println("Drawing document");
+        break;
+    case 0x1515:
+        System.out.println("Painting document");
+        break;
+    case 0x0000:
+    case 0x0303:
+        System.out.println("Spreadsheet document");
+        break;
+}
+----
+
+==== Hex Dump Examples
+
+.Word Processing Document (blank_6.2.9_osx.cwk)
+----
+00000080: 0202                                     ..
+----
+
+.Painting Document (blank_painting_6.2.9_osx.cwk)
+----
+00000080: 1515                                     ..
+----
+
+.Drawing Document (blank_drawing_6.2.9_osx.cwk)
+----
+00000080: 0101                                     ..
+----
+
+.Spreadsheet Document (sheet_B-5.0.3_os9.cwk)
+----
+00000080: 0303                                     ..
+----
+
+==== Notes
+
+* The byte values appear to be duplicated (e.g., `0x02 0x02` rather than just `0x02`), possibly for validation or alignment purposes.
+* Earlier documentation incorrectly identified the document type position as offsets 268 or 278. The correct position is `0x80` (128) for all tested versions.
+* The document type at `0x80` is consistent across ClarisWorks 4.x, 5.x, and AppleWorks 6.x files.

@@ -1,6 +1,6 @@
 = Introduction
 
-Clarisworks / Appleworks documents are a closed file format. This page is an
+ClarisWorks / AppleWorks documents are a closed file format. This page is an
 attempt to describe this format(s) for the purpose of importing documents into
 newer more open formats for archiving.
 
@@ -13,32 +13,64 @@ continuing work until I have enough knowledge to develop a reader that can at
 least extract text and some basic formatting of simple documents. From what I
 can tell, I think this first goal can be met. If anyone else out there can
 find anything else on their own, please update this wiki or email me your thoughts.
-code and test files can be found at: https://github.com/teacurran/appleworks-parser
+Code and test files can be found at: https://github.com/teacurran/appleworks-parser
+
+== Supported Versions
+
+* ClarisWorks 4.x (partial)
+* ClarisWorks 5.x (Windows and Mac OS 9)
+* AppleWorks 6.x (Mac OS X)
+
+== Current Capabilities
+
+* ✅ Document version detection
+* ✅ Document type detection (Word Processing, Drawing, Painting, Spreadsheet)
+* ✅ Page dimensions and margins
+* ✅ Text content extraction
+* ✅ Font list extraction (FNTM block)
+* ✅ Block index parsing (ETBL table of contents)
+* ✅ Conversion to ODF format
+* ⚠️ Style runs (partial - structure identified but not fully parsed)
+* ❌ Embedded images
+* ❌ Spreadsheet cell data
+* ❌ Drawing/painting graphics
 
 == Priorities
 
-* discover how to determine the start of the content block
-* Figure out the format of DSET
-* discover how to read the style attributes to apply to the content
-* develop plugin for Xena
-* develop plugin for general use
+* ✅ Discover how to determine the start of the content block
+* ✅ Figure out the format of DSET
+* ⚠️ Discover how to read the style attributes to apply to the content (in progress)
+* ❌ Develop plugin for Xena
+* ❌ Develop plugin for general use
 
 == Example Files
 
-example files I am using can be found in test_files directory
+Example files I am using can be found in the `test_files` directory.
 
 Please email me any examples you might have, especially if you have a version of
 ClarisWorks older than 5.0.
 
 == Document Format
+
+The following sections describe the binary format of ClarisWorks/AppleWorks files.
+
+include::header.adoc[]
+
+include::document_types.adoc[]
+
 include::keywords.adoc[]
 
 include::markers.adoc[]
 
-include::header.adoc[]
+include::etbl.adoc[]
+
+include::fonts.adoc[]
+
+include::style_runs.adoc[]
 
 === Document Info
-*there is a summary stored after the main header but before the first DSET
+
+There is a summary stored after the main header but before the first DSET.
 
 .Document Info
 [width="80%",grid="all", valign="top", options="header"]
@@ -56,47 +88,49 @@ include::header.adoc[]
 ** Category
 ** Description
 
-*each field is allowed 255 bytes of content +
-*full content is always available in the [[Projects:Archiving:AppleWorks:DSUM|DSUM]] section
+*Each field is allowed 255 bytes of content +
+*Full content is always available in the DSUM section
 
 === Document Content
-Content Appears to start right after the end of the first DSET block
 
-Strings in the document start with the first 4 bytes indicating the length of the string
+Content appears to start right after the end of the first DSET block.
 
-The content area will have several strings in a row without any termination
+Strings in the document start with the first 4 bytes indicating the length of the string.
+
+The content area will have several strings in a row without any termination.
 
 The last string appears to be null terminated.
 
-footnotes show up in the text as 0x02
+Footnotes show up in the text as 0x02.
 
-=== Document TOC
-The TOC can contain any number of markers in any order. The data area always starts and ends with ETBL.
+Character encoding is MacRoman.
 
-.Document TOC - at end of file
-[width="80%",grid="all", valign="top", options="header"]
-|=========================================================
-|position start |length (bytes)| description |example |ascii |comments
-|start position determined by other ETBL |4 |tag |4554424C |ETBL |Value indicates the total length of data in ETBL
-|anywhere |4 |data | |oBIN |oBIN block offset from start of doc
-|anywhere |4 |tag |4453554D |DSUM |DSUM block offset
-|anywhere |4 |data | |STYL |STYL block offset
-|anywhere |4 |data || BBAR |
-|anywhere |4 |data || MARK| MARK block offset
-|anywhere |4 |data || MRKS |
-|EOF - 24 |4 |tag |4554424C |ETBL |Following Value indicates start position
-|=========================================================
+=== Document TOC (ETBL)
+
+The ETBL block at the end of the file contains a table of contents with offsets to all major blocks.
+See link:etbl.adoc[ETBL documentation] for detailed structure.
+
+== File Validation
+
+=== BOBO Signature
+
+All valid ClarisWorks/AppleWorks files contain the ASCII string "BOBO" at offset 4-7.
+
+=== File End Marker
+
+In all versions tested, documents end with:
+----
+FF FE FD FC FB FA F9 F8 F0 F1 F2 F3 F4 F5 F6 F7
+----
+
+This 16-byte marker always follows the ETBL block and can be used to verify file integrity.
 
 == Misc
 
-in both versions tested, document ends with: +
-FF FE FD FC FB FA F9 F8 F0 F1 F2 F3 F4 F5 F6 F7
-
 === Passwords
-* password protected documents do not have their content protected.
-* password is not stored in the file
-* it probably stores a checksum because there isn't much difference in password length
-
+* Password protected documents do not have their content protected.
+* Password is not stored in the file.
+* It probably stores a checksum because there isn't much difference with password length.
 
 == Other Efforts
 
@@ -109,20 +143,19 @@ If you do a ton of google searches, you find a lot of pages that say that
 StarOffice could open ClarisWorks documents. This was done with the W4W filter.
 After a lot of digging, I believe that these filters live in OpenOffice in the
 Framework project. After checking out the source for the Framework project, I
-believe that the ClarisWorks import support was non-existant. If I am reading
+believe that the ClarisWorks import support was non-existent. If I am reading
 the source correctly, it looks like this filter simply opens the document as
 ASCII. If this is the case, I don't know why they even bothered to say they
-had a filter, if this is not the case someone please correct me.
+had a filter. If this is not the case someone please correct me.
 
-=== Propriatary
-* Old versions of DataViz can convert documents. product appears dead but
+=== Proprietary
+* Old versions of DataViz can convert documents. Product appears dead but
 still for sale.
-* MacText can convert older .cwk files to rtf, word2, and Word Perfect
+* MacText can convert older .cwk files to rtf, word2, and Word Perfect.
 * XTND - there is a lot of info out there about XTND filters as part of
 system 6 and 7. I would like to investigate if copies of these filters
 could help this effort but I haven't been able to find enough info yet.
 
 == Misc
-Forum message from someone looking into the format (from 2001, ha!)
+Forum message from someone looking into the format (from 2001):
 http://www.justlinux.com/forum/showthread.php?p=228151
-
