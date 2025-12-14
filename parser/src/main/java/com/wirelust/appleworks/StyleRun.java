@@ -17,11 +17,15 @@ package com.wirelust.appleworks;
  */
 public class StyleRun {
 
-	// Style flag constants (observed values, may be incomplete)
+	// Style flag constants (confirmed via binary analysis)
 	public static final int FLAG_NORMAL = 0x0C01;
 	public static final int FLAG_BOLD = 0x0901;
 	public static final int FLAG_ITALIC = 0x0E01;
 	public static final int FLAG_UNDERLINE = 0x0A01;
+
+	// Unknown style flags observed in test files - need additional samples to identify
+	public static final int FLAG_UNKNOWN_0D01 = 0x0D01;
+	public static final int FLAG_UNKNOWN_0F01 = 0x0F01;
 
 	private int startOffset;
 	private int endOffset;

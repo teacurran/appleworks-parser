@@ -288,6 +288,12 @@ public class Parser {
 				}
 			}
 
+			// Parse CHAR (Character Styles)
+			parseCharStyles(allBytes, doc);
+			if (!doc.getStyleRuns().isEmpty()) {
+				println("Style runs found: %d", doc.getStyleRuns().size());
+			}
+
 			// Parse content using DSET blocks
 			int content_start_position = 0;
 			int contentEndPosition = 0;
@@ -472,6 +478,107 @@ public class Parser {
 				pos++;
 			}
 		}
+	}
+
+	/**
+	 * Parses the CHAR (Character Styles) block to extract style runs.
+	 *
+	 * The CHAR block contains style run entries that define formatting
+	 * applied to ranges of text. Each entry is approximately 20 bytes:
+	 *
+	 *   Bytes 0-1:   Style flags (0x0C01=normal, 0x0901=bold, 0x0E01=italic, 0x0A01=underline)
+	 *   Bytes 2-5:   Unknown (usually 0x00000000)
+	 *   Bytes 6-7:   Unknown (0x0300 observed)
+	 *   Bytes 8-9:   Unknown (often 0xFFFF)
+	 *   Bytes 10-11: Unknown
+	 *   Bytes 12-13: Text length for this run
+	 *   Bytes 14-15: Character offset (cumulative position in text)
+	 *   Bytes 16-19: Unknown
+	 */
+	public void parseCharStyles(byte[] allBytes, Document doc) {
+		int charPos = findPattern(allBytes, KEYWORD_CHAR, 0);
+
+		if (charPos < 0) {
+			println("CHAR block not found");
+			return;
+		}
+
+		println("Parsing CHAR at position: 0x%08X", charPos);
+
+		// Read block header
+		int headerInfo = getArrayInt(allBytes, charPos + 4);
+		println("CHAR header info: 0x%08X", headerInfo);
+
+		// Skip past the keyword (4 bytes) and header (4 bytes)
+		// Then skip initial padding/header bytes until we find style entries
+		int pos = charPos + 8;
+
+		// Skip initial block data (appears to be variable length header)
+		// Look for the pattern where style entries begin
+		// Style entries typically start after some 0xFFFF markers
+
+		int cumulativeOffset = 0;
+		int styleEntrySize = 20; // Approximate size of each style entry
+		int entriesFound = 0;
+		int maxEntries = 100; // Safety limit
+
+		// Scan for style flag patterns (they appear in sequence)
+		// Looking for known style flags: 0x0C01, 0x0901, 0x0E01, 0x0A01
+		while (pos < allBytes.length - styleEntrySize && entriesFound < maxEntries) {
+			// Read potential style flag (2 bytes, big-endian)
+			int potentialFlag = ((allBytes[pos] & 0xFF) << 8) | (allBytes[pos + 1] & 0xFF);
+
+			// Check if this looks like a valid style flag
+			if (isValidStyleFlag(potentialFlag)) {
+				// This might be a style entry, try to parse it
+				int styleFlags = potentialFlag;
+
+				// Read text length at offset 12-13 from entry start
+				int textLength = ((allBytes[pos + 12] & 0xFF) << 8) | (allBytes[pos + 13] & 0xFF);
+
+				// Read character offset at offset 14-15 from entry start
+				int charOffset = ((allBytes[pos + 14] & 0xFF) << 8) | (allBytes[pos + 15] & 0xFF);
+
+				// Validate: text length should be reasonable
+				if (textLength > 0 && textLength < 10000) {
+					StyleRun run = new StyleRun(cumulativeOffset, cumulativeOffset + textLength, styleFlags);
+
+					// Try to extract font index from bytes 6-7 area (tentative)
+					int possibleFontIndex = ((allBytes[pos + 6] & 0xFF) << 8) | (allBytes[pos + 7] & 0xFF);
+					if (possibleFontIndex >= 0 && possibleFontIndex < 256) {
+						run.setFontIndex(possibleFontIndex);
+					}
+
+					doc.addStyleRun(run);
+					println("\tStyle run: flags=0x%04X, length=%d, offset=%d -> %s",
+							styleFlags, textLength, cumulativeOffset, run.toString());
+
+					cumulativeOffset += textLength;
+					entriesFound++;
+
+					// Move to next entry
+					pos += styleEntrySize;
+					continue;
+				}
+			}
+
+			// Not a valid entry, advance by 1 byte and keep scanning
+			pos++;
+		}
+
+		println("Found %d style runs", entriesFound);
+	}
+
+	/**
+	 * Checks if a value looks like a valid style flag.
+	 */
+	private boolean isValidStyleFlag(int flag) {
+		return flag == StyleRun.FLAG_NORMAL ||
+				flag == StyleRun.FLAG_BOLD ||
+				flag == StyleRun.FLAG_ITALIC ||
+				flag == StyleRun.FLAG_UNDERLINE ||
+				flag == StyleRun.FLAG_UNKNOWN_0D01 ||
+				flag == StyleRun.FLAG_UNKNOWN_0F01;
 	}
 
 	/**

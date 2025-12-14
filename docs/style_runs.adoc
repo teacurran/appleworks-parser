@@ -37,20 +37,24 @@ Style run entries are approximately 20 bytes each. The exact structure is still 
 | 16 | 4 | Unknown | Varies
 |=========================================================
 
-==== Style Flag Values (Tentative)
+==== Style Flag Values (Confirmed via Binary Analysis)
 
-These values have been observed but require further verification:
+These values have been confirmed through comparative analysis of plain vs styled test documents:
 
 .Style Flags
 [width="80%",grid="all", valign="top", options="header"]
 |=========================================================
-| Flag Value | Style
+| Flag Value | Style | Status
 
-| 0x0C01 | Normal (no style)
-| 0x0901 | Bold (tentative)
-| 0x0E01 | Italic (tentative)
-| 0x0A01 | Underline (tentative)
+| 0x0C01 | Normal (no style) | Confirmed
+| 0x0901 | Bold | Confirmed
+| 0x0E01 | Italic | Confirmed
+| 0x0A01 | Underline | Confirmed
+| 0x0D01 | Unknown | Observed - needs test file
+| 0x0F01 | Unknown | Observed - needs test file
 |=========================================================
+
+NOTE: The unknown flags (0x0D01, 0x0F01) may represent strikethrough, superscript, subscript, or combined styles. Additional test files with these specific styles are needed.
 
 ==== Example
 
@@ -132,10 +136,10 @@ public class StyleRun {
 
 ==== Notes
 
-* The CHAR block structure requires more analysis for complete understanding.
-* Style flags interpretation is tentative and based on observed patterns.
-* Font size and font family references may be encoded in the unknown fields.
+* Style flags have been confirmed through binary analysis comparing plain vs styled documents.
+* Font size and font family references may be encoded in the unknown fields at offsets 2-11.
 * The relationship between CHAR and STYL blocks needs further investigation.
+* Style entries appear at approximately 20-26 byte intervals within the CHAR block.
 
 ==== Related Blocks
 

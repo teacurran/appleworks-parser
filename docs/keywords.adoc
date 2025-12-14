@@ -15,7 +15,7 @@ Block keywords are 4-byte ASCII identifiers that mark the start of data blocks w
 
 |CPRT |43505254 |variable |Print settings |First 4 bytes indicate length. In v6, contains XML plist with printing information (resolution, paper size, orientation, etc.)
 
-|CTAB |43544142 |variable |Cell table |Spreadsheet-specific block containing cell data
+|CTAB |43544142 |variable |Cell table |Spreadsheet-specific block containing cell data. Only present in spreadsheet documents (.cwk with spreadsheet type), not in word processing documents.
 
 |DSET |44534554 |blocked |Dataset |Contains 5 sub-blocks. First DSET is followed by document content. Format: 4-byte length + value, repeating.
 
@@ -23,9 +23,9 @@ Block keywords are 4-byte ASCII identifiers that mark the start of data blocks w
 
 |ETBL |4554424C |variable |End table (TOC) |Table of contents at end of file. Maps block names to offsets. See link:etbl.adoc[etbl]. Followed by file end marker.
 
-|FNTM |464E544D |blocked |Font map |List of fonts used in document. Each font entry is 69 bytes. See link:fonts.adoc[fonts].
+|FNTM |464E544D |blocked |Font map |List of fonts used in document. Each font entry is 69 bytes with "00 15" header pattern. Contains font name as length-prefixed string. See link:fonts.adoc[fonts].
 
-|GRPH |47525048 | |Graphics |Graphics/drawing data
+|GRPH |47525048 | |Graphics |Graphics/drawing data. Contains embedded images, drawings, and graphical objects. Format is document-type dependent.
 
 |HASH |48415348 | |Hash table |Appears in multiples. Preceded by: FF FF 00 00 00 06 00 04 00 01
 
@@ -45,11 +45,11 @@ Block keywords are 4-byte ASCII identifiers that mark the start of data blocks w
 
 |MRKS |4D524B53 | |Markers list |Sub-block within MARK
 
-|NAME |4E414D45 | |Named styles |Style names (e.g., "Default", "Header", "Body", "Footer", "Footnote")
+|NAME |4E414D45 | |Named styles |Style names (e.g., "Default", "Default SS", "Default TB", "Header", "Body", "Footer", "Footnote"). Each entry is ~36 bytes: index byte, length byte, name string (padded).
 
 |oBIN |6F42494E | |Binary offset |Binary block offset references
 
-|RULR |52554C52 | |Ruler |Page rulers and paragraph formatting
+|RULR |52554C52 | |Ruler |Page rulers and paragraph formatting. Offset +4 contains indentation values that change with paragraph indent settings.
 
 |SNAP |534E4150 |variable |Snapshot/thumbnail |First 4 bytes indicate length. Contains PICT format thumbnail image. 5 header bytes before PICT data. Possibly v6 only.
 
